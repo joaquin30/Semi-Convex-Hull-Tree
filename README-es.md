@@ -2,6 +2,7 @@
 
 Una estructura de datos optimizada para la consulta exacta de los K vecinos más cercanos (KNN) de un conjunto de puntos.
 Implementación del paper [Semi-Convex Hull Tree: Fast Nearest Neighbor Queries for Large Scale Data on GPUs](https://ieeexplore.ieee.org/document/8594919).
+
 [Repositorio de la implementación oficial](https://github.com/XFastDataLab/Semi-convex_Hull_Tree).
 
 ## Dependencias
@@ -94,3 +95,10 @@ La estructura de datos. Alias en la clase:
 -   **Nota:** `knnSearch` es independiente y thread-safe, por lo que `knnBulkSearch`
     está paralelizado con OpenMP. Consume mucha memoria ya que guarda
     todos los resultados.
+
+## Diferencias con el paper
+
+-   `knnSearch` no está paralelizado con GPU, solo `knnBulkSearch` está paralelizado con CPU.
+-   No hay algoritmo para inicializar el resultado KNN. En cambio, las hojas se ordenan por distancia al punto y luego se recorren
+-   Los límites de los nodos no están refinados, solo las hojas lo están.
+

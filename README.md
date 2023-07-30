@@ -1,7 +1,8 @@
 # Semi-Convex Hull Tree
 
-A data structure optimized for querying the exact K nearest neighbors (KNN) of a set of points.
+A static data structure optimized for querying the exact K nearest neighbors (KNN) of a set of points.
 Implementation of the paper [Semi-Convex Hull Tree: Fast Nearest Neighbor Queries for Large Scale Data on GPUs](https://ieeexplore.ieee.org/document/8594919).
+
 [Official implementation repository](https://github.com/XFastDataLab/Semi-convex_Hull_Tree).
 
 ## Dependencies
@@ -46,15 +47,15 @@ to [Dataset of songs in Spotify](https://www.kaggle.com/datasets/mrmorj/dataset-
 
 ## Documentation
 
-### namespace sch
+### `namespace sch`
 
 Where are all the functions and classes of the tree
 
-### sch::Vec<DIM, Scalar = float>
+### `sch::Vec<DIM, Scalar = float>`
 
 It is an alias of an Eigen3 matrix of DIM rows and 1 column. By default `Scalar` is `float`.
 
-### sch::KnnResult<Scalar = float>
+### `sch::KnnResult<Scalar = float>`
 
 It is the result of the KNN search. To access individual points use:
 
@@ -65,26 +66,26 @@ for (const auto& i : res) {
 }
 ~~~
 
-### sch::Tree<DIM, Scalar = float>
+### `sch::Tree<DIM, Scalar = float>`
 
 The data structure. Aliases in the class:
 
 - `vec`: `Vec<DIM, Scalar>`.
 - `knn_result`: `KnnResult<Scalar>`.
 
-### sch::Tree(std::vector<vec>& points, bool copy = false)
+### `sch::Tree(std::vector<vec>& points, bool copy = false)`
 
 - `points`: The points to build the tree.
 - `copy`: If it is true it copies the points in the tree, if it is false it only uses a pointer to the points.
 
-### knn_result knnSearch(const vec& q, int k, bool sort = false)
+### `knn_result knnSearch(const vec& q, int k, bool sort = false)`
 
 - `q`: the point to be consulted by its nearest neighbors.
 - `k`: the number of neighbors that we want to return.
 - `sort`: If true, sort the points in the result by the distances ascending,
      if it is false, leave the points unordered.
 
-### void knnBulkSearch(std::vector<knn_result>& query_results, const std::vector<vec>& query_points, int k, bool sort = false)
+### `void knnBulkSearch(std::vector<knn_result>& query_results, const std::vector<vec>& query_points, int k, bool sort = false)`
 
 - `query_results`: Where the query results are stored.
 - `query_points`: The points to query for its nearest neighbors.
@@ -94,4 +95,10 @@ The data structure. Aliases in the class:
 - **Note:** `knnSearch` is independent and thread-safe, so `knnBulkSearch`
      is parallelized with OpenMP. It consumes a lot of memory as it saves
      all results.
+
+## Differences with the paper
+
+-   `knnSearch` is not parallelized with GPU, only `knnBulkSearch` is parallelized with CPU.
+-   There is no algorithm for initializing the KNN result. Instead, the leaves are sorted by distance to the point and then traversed.
+-   The constraints in the nodes are not refined, only the leaves are.
 
