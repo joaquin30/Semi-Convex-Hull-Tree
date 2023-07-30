@@ -1,6 +1,6 @@
 # Semi-Convex Hull Tree
 
-Una estructura de datos optimizada para la consulta exacta de los K vecinos más cercanos (KNN) de un conjunto de puntos.
+Una estructura de datos estática optimizada para la consulta exacta de los K vecinos más cercanos (KNN) de un conjunto de puntos.
 Implementación del paper [Semi-Convex Hull Tree: Fast Nearest Neighbor Queries for Large Scale Data on GPUs](https://ieeexplore.ieee.org/document/8594919).
 
 [Repositorio de la implementación oficial](https://github.com/XFastDataLab/Semi-convex_Hull_Tree).
